@@ -13,19 +13,33 @@
     />
   </head>
   <body>
-    <div class="container mt-3">
-     <h3 class="text-center">Thêm mới học sinh</h3>
+    <div class="container mt-5 justify-content-center">
+     <h3 class="text-center pt-5">Thêm mới nhân viên</h3>
      <form action="/add" method="post">
-         <label for="id">ID</label>
-         <input type="text" name="id" class="form-control">
-         <label for="name">Tên</label>
-         <input type="text" name="name" class="form-control">
-         <label for="email">Email</label>
-         <input type="text" name="email" class="form-control">
-         <label for="class">Lớp</label>
-         <input type="text" name="class" class="form-control">
-         <input type="submit" value="Thêm mới" class="btn btn-primary mt-2"> <br>
-         <a href="/">Quay lại?</a>
+         <label for="ID">ID</label>
+         <input type="text" name="ID" class="form-control">
+
+         <label for="FullName">Tên</label>
+         <input type="text" name="FullName" class="form-control">
+
+         <label for="Age">Tuổi</label>
+          <input type="text" name="Age" class="form-control">
+
+          <label for="Address">Địa Chỉ</label>
+          <input type="text" name="Address" class="form-control">
+
+          <label for="Email">Email</label>
+           <input type="email" name="Email" class="form-control">
+        
+           <label for="StartDate">Ngày Vào Làm</label>
+
+            <input type="date" name="StartDate" class="form-control">
+
+         <label for="ContractDocument">hợp đồng lao động</label>
+         <input type="text" name="ContractDocument" class="form-control">
+
+         <input type="submit" value="Thêm mới" class="btn btn-dark mt-3"> <br>
+         <a href="/listnv" >Quay lại?</a>
      </form>
     </div>
   </body>

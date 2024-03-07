@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Home</title>
+    <title>Đơn Phép</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -14,8 +14,8 @@
   </head>
   <body>
     <div class="container mt-3">
-     <h3 class="text-center">Cập nhật Nhân Viên</h3>
-     <form action="/edit" method="post">
+     <h3 class="text-center">Gửi thông tin nghỉ phép</h3>
+     <form action="/leave" method="post">
         <input type="hidden" name="ID" value="<%=data.ID%>" class="form-control" >
          <label for="FullName">Tên Nhân Viên</label>
          <input type="text" name="FullName" value="<%=data.FullName%>" class="form-control">
@@ -29,13 +29,20 @@
          <label for="Email">Email</label>
          <input type="email" name="Email" value="<%=data.Email%>" class="form-control">
 
-         <label for="StartDate">Ngày vào làm</label>
-         <input type="date" name="StartDate" value="<%=data.StartDate%>" class="form-control">
 
-         <label for="ContractDocument">Hợp đồng lao động</label>
-         <input type="text" name="ContractDocument" value="<%=data.ContractDocument%>" class="form-control">
+         <label for="DayOffStart">DayOffStart</label>
+         <input type="date" name="DayOffStart" class="form-control">
 
-         <input type="submit" value="Cập nhật" class="btn btn-primary mt-2"> <br>
+         <label for="DayOffEnd">DayOffEnd</label>
+          <input type="date" name="DayOffEnd" class="form-control">
+
+            <label for="LeaveType">Loại nghỉ:</label>
+            <select class="form-control" id="LeaveType" name="LeaveType" required>
+              <option value="1">Nghỉ phép</option>
+              <option value="2">Nghỉ không lương</option>
+            </select>
+         
+         <input type="submit" value="Gửi Đơn Nghỉ" class="btn btn-primary mt-2"> <br>
          <a href="/listnv">Quay lại?</a>
      </form>
     </div>
