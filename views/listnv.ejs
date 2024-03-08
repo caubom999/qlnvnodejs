@@ -15,12 +15,14 @@
     /* Tùy chỉnh CSS cho sidebar */
     .sidebar {
       height: 100%;
-      width: 300px;
+      width: 0; /* Ban đầu thanh sidebar được ẩn */
       position: fixed;
       top: 0;
       left: 0;
       background-color: black;
       padding-top: 30px;
+      transition: 0.5s; /* Thêm hiệu ứng transition */
+      overflow-x: hidden; /* Ngăn chặn scroll ngang khi sidebar mở */
     }
     .sidebar a {
       padding: 10px 15px;
@@ -34,8 +36,11 @@
   </style>
 </head>
 <body>
+  <!-- Nút mở sidebar -->
+  <button class="openbtn mt-5 ml-5" onclick="openSidebar()">☰ Menu</button>
+
   <!-- Sidebar -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <a href="/home">Home</a>
     <a href="/listnv">Danh sách nhân viên</a>
     <a href="/report">Báo Cáo</a>
@@ -46,15 +51,17 @@
   <div class="container mt-5">
     <div>
       <a href="/add" class="btn btn-info">Thêm mới Nhân viên</a>
-      <table class="table bg-success mt-3 ">
+      <table class="table bg-success mt-3">
         <thead>
-          <th>Tên</th>
-          <th>Tuổi</th>
-          <th>Địa Chỉ</th>
-          <th>Email</th>
-          <th>ngày làm việc chính thức</th>
-          <th>hợp đồng lao động</th> 
-          <th>Chức Năng</th>      
+          <tr>
+            <th>Tên</th>
+            <th>Tuổi</th>
+            <th>Địa Chỉ</th>
+            <th>Email</th>
+            <th>Ngày làm việc chính thức</th>
+            <th>Hợp đồng lao động</th> 
+            <th>Chức năng</th>      
+          </tr>
         </thead>
         <tbody>
           <% for(var i=0; i<data.length; i++) { %>
@@ -76,14 +83,23 @@
       </table>
     </div>
   </div>
+
   <script>
-    function confirmLogout() {
-        var confirmation = confirm("Bạn có chắc chắn muốn đăng xuất?");
-        if (confirmation) {
-            window.location.href = "/login";
-            return false;
-        }
+    function openSidebar() {
+      document.getElementById("sidebar").style.width = "300px"; // Mở sidebar bằng cách đặt width là 300px
     }
-    </script>
+
+    function closeSidebar() {
+      document.getElementById("sidebar").style.width = "0"; // Đóng sidebar bằng cách đặt width là 0
+    }
+
+    function confirmLogout() {
+      var confirmation = confirm("Bạn có chắc chắn muốn đăng xuất?");
+      if (confirmation) {
+        window.location.href = "/login";
+        return false;
+      }
+    }
+  </script>
 </body>
 </html>
