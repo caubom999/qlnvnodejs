@@ -13,14 +13,14 @@ ALTER TABLE tblqlnv
 ADD COLUMN password VARCHAR(255);
 ALTER TABLE tblqlnv ADD COLUMN role ENUM('admin', 'employee') DEFAULT 'employee';
 
-ALTER TABLE tblqlnv
-ADD COLUMN MaxLeaveDays INT DEFAULT 20;
-
-ALTER TABLE tblqlnv
-ADD COLUMN RemainingLeaveDays INT;
+-- ALTER TABLE tblqlnv
+-- ADD COLUMN MaxLeaveDays INT DEFAULT 20;
 
 -- ALTER TABLE tblqlnv
--- ADD COLUMN RemainingLeaveDays INT DEFAULT 20;
+-- ADD COLUMN RemainingLeaveDays INT;
+
+ALTER TABLE tblqlnv
+ADD COLUMN RemainingLeaveDays INT DEFAULT 20;
 
 
 
