@@ -13,3 +13,14 @@ CREATE TABLE `tblleave` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 ALTER TABLE tblleave
 MODIFY COLUMN LeaveType INT DEFAULT NULL;
+ALTER TABLE tblleave
+ADD COLUMN ApprovalStatus ENUM('pending', 'approved', 'rejected') DEFAULT 'pending';
+ALTER TABLE tblleave
+MODIFY COLUMN DayOffStart DATETIME;
+
+ALTER TABLE tblleave
+MODIFY COLUMN DayOffEnd DATETIME;
+
+ALTER TABLE tblqlnv
+ADD COLUMN RemainingLeaveDays INT DEFAULT 20;
+

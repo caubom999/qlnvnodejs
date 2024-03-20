@@ -12,17 +12,17 @@
     crossorigin="anonymous"
   />
   <style>
-    /* Tùy chỉnh CSS cho sidebar */
+    /* Custom CSS for sidebar */
     .sidebar {
       height: 100%;
-      width: 0; /* Ban đầu thanh sidebar được ẩn */
+      width: 0; /* Initially hidden */
       position: fixed;
       top: 0;
       left: 0;
       background-color: black;
       padding-top: 30px;
-      transition: 0.5s; /* Thêm hiệu ứng transition */
-      overflow-x: hidden; /* Ngăn chặn scroll ngang khi sidebar mở */
+      transition: 0.5s; /* Add transition effect */
+      overflow-x: hidden; /* Prevent horizontal scroll when sidebar is open */
     }
     .sidebar a {
       padding: 10px 15px;
@@ -36,21 +36,35 @@
   </style>
 </head>
 <body>
-  <!-- Nút mở sidebar -->
+  <!-- Open sidebar button -->
   <button class="openbtn mt-5 ml-5" onclick="openSidebar()">☰ Menu</button>
 
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <a href="/home">Home</a>
+    <a href="/Approval">Approval</a>
     <a href="/listnv">Danh sách nhân viên</a>
-    <a href="/report">Báo Cáo</a>
+    <a id="reportLink" href="#">Báo Cáo</a>
     <a href="#" onclick="confirmLogout()">Đăng Xuất</a>
   </div>
 
   <!-- Content -->
   <div class="container mt-5">
+    <!-- Date selection form -->
+    <form action="/report" method="GET">
+      <div class="form-group">
+        <label for="start_date">Ngày bắt đầu:</label>
+        <input type="date" id="start_date" name="start_date" required>
+      </div>
+      <div class="form-group">
+        <label for="end_date">Ngày kết thúc:</label>
+        <input type="date" id="end_date" name="end_date" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Xem báo cáo</button>
+    </form>
+
+    <!-- Report table (populated by server-side data) -->
     <div>
-      <table class="table bg-success mt-3 ">
+      <table class="table bg-success mt-3">
         <thead>
           <tr>
             <th>Tên</th>
@@ -64,12 +78,12 @@
         <tbody>
           <% for(var i=0; i<data.length; i++) { %>
             <tr>
-              <td><%=data[i].FullName%></td>
-              <td><%=data[i].Email%></td>
-              <td><%=data[i].TotalWorkingDays%></td>
-              <td><%=data[i].TotalNghiPhep%></td>
-              <td><%=data[i].TotalNghiKhongLuong%></td>
-              <td><%=data[i].RemainingLeaveDays%></td>
+              <td><%= data[i].FullName %></td>
+              <td><%= data[i].Email %></td>
+              <td><%= data[i].TotalWorkingDays %></td>
+              <td><%= data[i].TotalNghiPhep %></td>
+              <td><%= data[i].TotalNghiKhongLuong %></td>
+              <td><%= data[i].RemainingLeaveDays %></td>
             </tr>
           <% } %>
         </tbody>
@@ -77,22 +91,42 @@
     </div>
   </div>
 
+  <!-- JavaScript for sidebar and logout confirmation -->
   <script>
     function openSidebar() {
-      document.getElementById("sidebar").style.width = "300px"; // Mở sidebar bằng cách đặt width là 300px
+      document.getElementById("sidebar").style.width = "300px"; // Open sidebar by setting width to 300px
     }
 
     function closeSidebar() {
-      document.getElementById("sidebar").style.width = "0"; // Đóng sidebar bằng cách đặt width là 0
+      document.getElementById("sidebar").style.width = "0"; // Close sidebar by setting width to 0
     }
 
     function confirmLogout() {
       var confirmation = confirm("Bạn có chắc chắn muốn đăng xuất?");
       if (confirmation) {
-        window.location.href = "/login";
+        window.location.href = "/"; // Redirect to homepage if confirmed
         return false;
       }
     }
+
+       // Lấy ngày hiện tại
+       var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1
+var day = today.getDate();
+
+// Format ngày thành chuỗi YYYY-MM-DD
+var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+
+// Tạo đường dẫn với ngày hiện tại
+var reportLink = '/report?start_date=' + year + '-' + (month < 10 ? '0' : '') + month + '-01' + '&end_date=' + formattedDate;
+
+// Đặt đường dẫn cho thẻ a
+document.getElementById('reportLink').setAttribute('href', reportLink);
+
   </script>
+
+  <!-- Go back link -->
+  <a href="/employee_info">Quay Lai</a>
 </body>
 </html>

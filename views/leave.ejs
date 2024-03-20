@@ -15,26 +15,26 @@
   <body>
     <div class="container mt-3">
      <h3 class="text-center">Gửi thông tin nghỉ phép</h3>
-     <form action="/leave" method="post">
-        <input type="hidden" name="ID" value="<%=data.ID%>" class="form-control" >
-         <label for="FullName">Tên Nhân Viên</label>
-         <input type="text" name="FullName" value="<%=data.FullName%>" class="form-control">
+     <form action="/employee_info/<%=user.ID%>" method="post">
+        <input type="hidden" name="ID" value="<%=user.ID%>" class="form-control" >
+         <!-- <label for="FullName">Tên Nhân Viên</label>
+         <input type="text" name="FullName" value="<%=user.FullName%>" class="form-control">
 
          <label for="Age">Tuổi</label>
-         <input type="text" name="Age" value="<%=data.Age%>" class="form-control">
+         <input type="text" name="Age" value="<%=user.Age%>" class="form-control">
 
          <label for="Address">Địa Chỉ</label>
-         <input type="text" name="Address" value="<%=data.Address%>" class="form-control">
+         <input type="text" name="Address" value="<%=user.Address%>" class="form-control"> -->
 
          <label for="Email">Email</label>
-         <input type="email" name="Email" value="<%=data.Email%>" class="form-control">
+         <input type="email" name="Email" value="<%=user.Email%>" class="form-control">
 
 
          <label for="DayOffStart">DayOffStart</label>
-         <input type="date" name="DayOffStart" class="form-control">
+         <input type="datetime-local" name="DayOffStart" class="form-control">
 
          <label for="DayOffEnd">DayOffEnd</label>
-          <input type="date" name="DayOffEnd" class="form-control">
+          <input type="datetime-local" name="DayOffEnd" class="form-control">
 
             <label for="LeaveType">Loại nghỉ:</label>
             <select class="form-control" id="LeaveType" name="LeaveType" required>
@@ -43,7 +43,7 @@
             </select>
          
          <input type="submit" value="Gửi Đơn Nghỉ" class="btn btn-primary mt-2"> <br>
-         <a href="/listnv">Quay lại?</a>
+         <a href="/employee_info/<%=user.ID%>">Quay lại?</a>
      </form>
     </div>
   </body>

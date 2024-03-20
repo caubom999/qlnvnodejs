@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Employee Information</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <style>
+    /* Tùy chỉnh kiểu dáng cho thanh sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 250px; /* Chiều rộng của thanh sidebar */
+      background-color: #f8f9fa; /* Màu nền của thanh sidebar */
+      padding-top: 60px; /* Dành một khoảng trống phía trên */
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <ul class="nav flex-column">
+     <li class="nav-item">
+        <a class="nav-link active" href="/employee_info/<%=user.ID%>">Employee</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="#" onclick="confirmLogout()">Đăng Xuất</a>
+      </li>
+      <li class="nav-item">
+        <a id="reportLink" class="nav-link" href="#">Báo Cáo</a>
+      </li>
+      
+      <!-- Thêm các liên kết khác tại đây -->
+    </ul>
+  </nav>
+
+  <div class="container mt-5" style="margin-left: 250px;"> <!-- Dời nội dung chính sang phải để tránh bị che khuất bởi thanh sidebar -->
+   <center><h1>Thông tin nhân viên</h1></center>
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Tên</th>
+          <td><%= user.FullName %></td>
+        </tr>
+        <tr>
+          <th>Tuổi</th>
+          <td><%= user.Age %></td>
+        </tr>
+        <tr>
+          <th>Địa chỉ</th>
+          <td><%= user.Address %></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><%= user.Email %></td>
+        </tr>
+        <tr>
+          <th>Chức năng</th>
+          <td>
+            <a href="/leave/<%=user.ID%>" class="btn btn-primary mt-3">Gửi Đơn</a>
+          </td>
+        </tr>
+        <tr>
+          <th></th>
+          <td>
+            <a href="/employee_edit/<%=user.ID%>" class="btn btn-primary">Sửa</a>
+          </td>
+        </tr>
+        <tr>
+          
+          <td>
+          </td>
+        </tr>
+        
+      </table>
+    </div>
+  </div>
+
+  <!-- Script của Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script>
+    function openSidebar() {
+      document.getElementById("sidebar").style.width = "300px"; // Mở sidebar bằng cách đặt width là 300px
+    }
+
+    function closeSidebar() {
+      document.getElementById("sidebar").style.width = "0"; // Đóng sidebar bằng cách đặt width là 0
+    }
+
+    function confirmLogout() {
+      var confirmation = confirm("Bạn có chắc chắn muốn đăng xuất?");
+      if (confirmation) {
+        window.location.href = "/";
+        return false;
+      }
+    }
+
+    
+      // Lấy ngày hiện tại
+      var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1
+var day = today.getDate();
+
+// Format ngày thành chuỗi YYYY-MM-DD
+var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+
+// Tạo đường dẫn với ngày hiện tại
+var reportLink = '/employee_report/<%=user.ID%>?start_date=' + year + '-' + (month < 10 ? '0' : '') + month + '-01' + '&end_date=' + formattedDate;
+
+// Đặt đường dẫn cho thẻ a
+document.getElementById('reportLink').setAttribute('href', reportLink);
+
+  </script>
+</body>
+</html>

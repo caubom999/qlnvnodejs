@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Employee</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mt-3">
+     <h3 class="text-center">Cập nhật Nhân Viên EPL xx</h3>
+     <form action="/employee_edit" method="post">
+        <input type="hidden" name="ID" value="<%=data.ID%>" class="form-control" >
+         <label for="FullName">Tên Nhân Viên</label>
+         <input type="text" name="FullName" value="<%=data.FullName%>" class="form-control">
+
+         <label for="Age">Tuổi</label>
+         <input type="text" name="Age" value="<%=data.Age%>" class="form-control">
+
+         <label for="Address">Địa Chỉ</label>
+         <input type="text" name="Address" value="<%=data.Address%>" class="form-control">
+
+         <label for="Email">Email</label>
+         <input type="email" name="Email" value="<%=data.Email%>" class="form-control">
+
+         <label for="StartDate">Ngày vào làm</label>
+         <input type="date" name="StartDate" value="<%=data.StartDate%>" class="form-control">
+
+         <label for="ContractDocument">Hợp đồng lao động</label>
+         <input type="text" name="ContractDocument" value="<%=data.ContractDocument%>" class="form-control">
+
+         <input type="submit" value="Cập nhật" class="btn btn-primary mt-2"> <br>
+         <a href="/employee_info/<%=data.ID%>">Quay lại?</a>
+     </form>
+    </div>
+  </body>
+</html>

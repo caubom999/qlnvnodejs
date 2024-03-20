@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Approval</title>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+    crossorigin="anonymous"
+  />
+  <style>
+    /* Tùy chỉnh CSS cho sidebar */
+    .sidebar {
+      height: 100%;
+      width: 0; /* Ban đầu thanh sidebar được ẩn */
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: black;
+      padding-top: 30px;
+      transition: 0.5s; /* Thêm hiệu ứng transition */
+      overflow-x: hidden; /* Ngăn chặn scroll ngang khi sidebar mở */
+    }
+    .sidebar a {
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      color: white;
+    }
+    .sidebar a:hover {
+      background-color: #d1d1d1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Nút mở sidebar -->
+  <button class="openbtn mt-5 ml-5" onclick="openSidebar()">☰ Menu</button>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="/Approval">Approval</a>
+    <a href="/listnv">Danh sách nhân viên</a>
+    <a id="reportLink" href="#">Báo Cáo</a>
+    <a href="#" onclick="confirmLogout()">Đăng Xuất</a>
+  </div>
+
+ <!-- Content -->
+ <center><h1>List Nhân Viên</h1></center>
+ <div class="container mt-3">
+  <div>
+    <table class="table bg-success mt-3">
+      <thead>
+        <th>Tên</th>
+        <th>Tuổi</th>
+        <th>Địa Chỉ</th>
+        <th>Email</th>
+        <th>ngày làm việc chính thức</th>  
+        <th>Day Off Start</th>
+        <th>Day Off End</th>
+        <th>Trạng Thái Nghỉ</th> 
+        <th>Trạng Thái Duyệt</th>
+        <th>Thao Tác Duyệt</th>
+      </thead>
+      <tbody>
+        <% for(var i=0; i<data.length; i++) { %>
+          <tr>
+            <td><%=data[i].FullName%></td>
+            <td><%=data[i].Age%></td>
+            <td><%=data[i].Address%></td>
+            <td><%=data[i].Email%></td>
+            <td><%=data[i].StartDate%></td> 
+            <td><%=data[i].DayOffStart%></td>
+            <td><%=data[i].DayOffEnd%></td>
+            <td><%=data[i].LeaveType%></td>
+            <td><%=data[i].ApprovalStatus%></td>
+            <td>
+              <form action="/update-approval-status" method="post">
+                <input type="hidden" name="leaveID" value="<%=data[i].LeaveID%>"> <!-- Add this line -->
+                <input type="hidden" name="employeeID" value="<%=data[i].ID%>">
+                <select name="newStatus" onchange="this.form.submit()">
+                  <option value="pending" <%= data[i].ApprovalStatus === 'pending' ? 'selected' : '' %>>Chờ duyệt</option>
+                  <option value="approved" <%= data[i].ApprovalStatus === 'approved' ? 'selected' : '' %>>Đã duyệt</option>
+                  <option value="rejected" <%= data[i].ApprovalStatus === 'rejected' ? 'selected' : '' %>>Từ chối</option>
+                </select>
+              </form>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function openSidebar() {
+    document.getElementById("sidebar").style.width = "300px";
+  }
+
+  function closeSidebar() {
+    document.getElementById("sidebar").style.width = "0";
+  }
+
+  function confirmLogout() {
+    var confirmation = confirm("Bạn có chắc chắn muốn đăng xuất?");
+    if (confirmation) {
+      window.location.href = "/";
+      return false;
+    }
+  }
+
+
+     // Lấy ngày hiện tại
+     var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1; // Tháng bắt đầu từ 0, cần cộng thêm 1
+var day = today.getDate();
+
+// Format ngày thành chuỗi YYYY-MM-DD
+var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+
+// Tạo đường dẫn với ngày hiện tại
+var reportLink = '/report?start_date=' + year + '-' + (month < 10 ? '0' : '') + month + '-01' + '&end_date=' + formattedDate;
+
+// Đặt đường dẫn cho thẻ a
+document.getElementById('reportLink').setAttribute('href', reportLink);
+
+</script>
+</body>
+</html>
