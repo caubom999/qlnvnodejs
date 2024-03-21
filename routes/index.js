@@ -56,6 +56,60 @@ router.get("/employee_report", function (req, res, next) {
 
 
 //report
+
+
+
+// router.get("/report", function (req, res, next) {
+//   // Lấy ngày bắt đầu và kết thúc từ tham số truy vấn (nếu có)
+//   let start_date = req.query.start_date;
+//   let end_date = req.query.end_date;
+
+//   // Nếu không có ngày bắt đầu được chỉ định, mặc định là ngày đầu tiên của tháng trước
+//   if (!start_date) {
+//     const today = new Date();
+//     const lastMonthFirstDay = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+//     start_date = lastMonthFirstDay.toISOString().split('T')[0]; // Lấy ngày dưới dạng 'YYYY-MM-DD'
+//   }
+
+//   // Nếu không có ngày kết thúc được chỉ định, mặc định là ngày cuối cùng của tháng trước
+//   if (!end_date) {
+//     const today = new Date();
+//     const lastMonthLastDay = new Date(today.getFullYear(), today.getMonth(), 0);
+//     end_date = lastMonthLastDay.toISOString().split('T')[0]; // Lấy ngày dưới dạng 'YYYY-MM-DD'
+//   }
+
+//   // Xây dựng câu truy vấn SQL với ngày bắt đầu và kết thúc được cung cấp
+//   let query = "SELECT tblqlnv.*, ";
+//   if (end_date > new Date()) {
+//       query += "DATEDIFF(CURDATE(), DATE_FORMAT('" + start_date + "', '%Y-%m-01')) + 1 AS TotalWorkingDays, ";
+//   } else {
+//       query += "DATEDIFF('" + end_date + "', DATE_FORMAT('" + start_date + "', '%Y-%m-01')) + 1 - COALESCE(SUM(DATEDIFF(IFNULL(tblleave.DayOffEnd, '" + end_date + "'), tblleave.DayOffStart) + 1), 0) AS TotalWorkingDays, ";
+//   }
+//   query += "SUM(CASE WHEN tblleave.LeaveType = 1 THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS TotalNghiPhep, ";
+//   query += "SUM(CASE WHEN tblleave.LeaveType = 2 THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS TotalNghiKhongLuong, ";
+//   query += "20 - COALESCE(SUM(CASE WHEN tblleave.LeaveType IN (1, 2) THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END), 0) AS RemainingLeaveDays, ";
+//   query += "20 * (YEAR('" + end_date + "') - YEAR('" + start_date + "')) - SUM(CASE WHEN MONTH(tblleave.DayOffStart) BETWEEN 1 AND MONTH('" + start_date + "') AND YEAR(tblleave.DayOffStart) = YEAR('" + start_date + "') AND tblleave.LeaveType IN (1, 2) THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS RemainingLeaveDaysOfYear ";
+//   query += "FROM tblqlnv ";
+//   query += "LEFT JOIN tblleave ON tblqlnv.ID = tblleave.EmployeeID ";
+//   query += "WHERE (MONTH(tblleave.DayOffStart) = MONTH('" + start_date + "') OR tblleave.DayOffStart IS NULL) ";
+//   query += "AND tblleave.ApprovalStatus = 'approved' "; // Thêm điều kiện vào đây
+//   // Thêm điều kiện cho ngày bắt đầu và kết thúc nếu được cung cấp
+//   if (start_date && end_date) {
+//     query += `AND tblleave.DayOffStart BETWEEN '${start_date}' AND '${end_date}' `;
+//   }
+  
+//   query += "GROUP BY tblqlnv.ID";
+
+//   // Thực thi câu truy vấn SQL
+//   dbConnect.query(query, function (err, data) {
+//     if (err) throw err;
+//     res.render("report", { data: data });
+//   });
+// });
+
+
+
+
 // router.get("/report", function (req, res, next) {
 //   dbConnect.query("SELECT tblqlnv.*, DATEDIFF(CURRENT_DATE, DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) + 1 - COALESCE(SUM(DATEDIFF(IFNULL(tblleave.DayOffEnd, CURRENT_DATE), tblleave.DayOffStart) + 1), 0) AS TotalWorkingDays, SUM(CASE WHEN tblleave.LeaveType = 1 THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS TotalNghiPhep, SUM(CASE WHEN tblleave.LeaveType = 2 THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS TotalNghiKhongLuong, 20 - COALESCE(SUM(CASE WHEN tblleave.LeaveType IN (1, 2) THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END), 0) AS RemainingLeaveDays FROM tblqlnv LEFT JOIN tblleave ON tblqlnv.ID = tblleave.EmployeeID WHERE MONTH(tblleave.DayOffStart) = MONTH(CURRENT_DATE) OR tblleave.DayOffStart IS NULL GROUP BY tblqlnv.ID", function (err, data) {
 //     if (err) throw err;
@@ -63,10 +117,15 @@ router.get("/employee_report", function (req, res, next) {
 //   });
 // });
 
+
+
+
+
+
 router.get("/report", function (req, res, next) {
   // Lấy ngày bắt đầu và kết thúc từ tham số truy vấn (nếu có)
-  let start_date = req.query.start_date;
-  let end_date = req.query.end_date;
+  const start_date = req.query.start_date;
+  const end_date = req.query.end_date;
 
   // Nếu không có ngày bắt đầu được chỉ định, mặc định là ngày đầu tiên của tháng trước
   if (!start_date) {
@@ -75,22 +134,19 @@ router.get("/report", function (req, res, next) {
     start_date = lastMonthFirstDay.toISOString().split('T')[0]; // Lấy ngày dưới dạng 'YYYY-MM-DD'
   }
 
-  // Nếu không có ngày kết thúc được chỉ định, mặc định là ngày cuối cùng của tháng hiện tại
+  // Nếu không có ngày kết thúc được chỉ định, mặc định là ngày cuối cùng của tháng trước
   if (!end_date) {
     const today = new Date();
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    end_date = lastDayOfMonth.toISOString().split('T')[0]; // Lấy ngày dưới dạng 'YYYY-MM-DD'
-  } else if (new Date(end_date) > new Date()) {
-    // Nếu ngày kết thúc lớn hơn ngày hiện tại, chỉ định ngày kết thúc là ngày hiện tại
-    end_date = new Date().toISOString().split('T')[0];
+    const lastMonthLastDay = new Date(today.getFullYear(), today.getMonth(), 0);
+    end_date = lastMonthLastDay.toISOString().split('T')[0]; // Lấy ngày dưới dạng 'YYYY-MM-DD'
   }
 
   // Xây dựng câu truy vấn SQL với ngày bắt đầu và kết thúc được cung cấp
   let query = "SELECT tblqlnv.*, ";
-  if (new Date(end_date) > new Date()) {
-    query += "DATEDIFF(CURDATE(), DATE_FORMAT('" + start_date + "', '%Y-%m-01')) + 1 AS TotalWorkingDays, ";
+  if (end_date > new Date()) {
+      query += "DATEDIFF(CURDATE(), DATE_FORMAT('" + start_date + "', '%Y-%m-01')) + 1 AS TotalWorkingDays, ";
   } else {
-    query += "DATEDIFF('" + end_date + "', DATE_FORMAT('" + start_date + "', '%Y-%m-01')) + 1 AS TotalWorkingDays, ";
+      query += "DATEDIFF('" + end_date + "', DATE_FORMAT('" + start_date + "', '%Y-%m-01')) + 1 - COALESCE(SUM(DATEDIFF(IFNULL(tblleave.DayOffEnd, '" + end_date + "'), tblleave.DayOffStart) + 1), 0) AS TotalWorkingDays, ";
   }
   query += "SUM(CASE WHEN tblleave.LeaveType = 1 THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS TotalNghiPhep, ";
   query += "SUM(CASE WHEN tblleave.LeaveType = 2 THEN DATEDIFF(tblleave.DayOffEnd, tblleave.DayOffStart) + 1 ELSE 0 END) AS TotalNghiKhongLuong, ";
@@ -99,14 +155,12 @@ router.get("/report", function (req, res, next) {
   query += "LEFT JOIN tblleave ON tblqlnv.ID = tblleave.EmployeeID ";
   query += "WHERE (MONTH(tblleave.DayOffStart) = MONTH('" + start_date + "') OR tblleave.DayOffStart IS NULL) ";
   query += "AND tblleave.ApprovalStatus = 'approved' "; // Thêm điều kiện vào đây
+  
+  
 
   // Thêm điều kiện cho ngày bắt đầu và kết thúc nếu được cung cấp
   if (start_date && end_date) {
-    if (new Date(end_date) > new Date()) {
-      query += `AND tblleave.DayOffStart BETWEEN '${start_date}' AND '${new Date().toISOString().split('T')[0]}' `;
-    } else {
-      query += `AND tblleave.DayOffStart BETWEEN '${start_date}' AND '${end_date}' `;
-    }
+    query += `AND tblleave.DayOffStart BETWEEN '${start_date}' AND '${end_date}' `;
   }
 
   query += "GROUP BY tblqlnv.ID";
@@ -117,6 +171,7 @@ router.get("/report", function (req, res, next) {
     res.render("report", { data: data });
   });
 });
+
 
 
 

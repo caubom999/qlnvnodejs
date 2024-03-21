@@ -72,7 +72,9 @@
             <th>Tổng ngày Công</th> 
             <th>Số Ngày Nghỉ Phép</th>
             <th>Số Ngày Nghỉ Không Lương</th>
-            <th>Số Ngày Nghỉ Còn Lại Trong Năm</th>
+            <th>Số Ngày Nghỉ Còn Lại Trong Tháng</th>
+            <!-- <th>Tổng Ngày Nghỉ Còn Lại Trong Năm</th> -->
+       
           </tr>
         </thead>
         <tbody>
@@ -84,6 +86,8 @@
               <td><%= data[i].TotalNghiPhep %></td>
               <td><%= data[i].TotalNghiKhongLuong %></td>
               <td><%= data[i].RemainingLeaveDays %></td>
+              <!-- <td><%= data[i].totalRemainingLeaveDays %></td> -->
+           
             </tr>
           <% } %>
         </tbody>
